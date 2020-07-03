@@ -1,1 +1,22 @@
-<fbp-main></fbp-main>
+<fbp-main #fbp>
+  <ng-template #nodeTemplateRef let-node="node">
+    <fbp-node [id]="node.id">
+      <ng-container *ngIf="getChildNodes(node);let nodes;else renderNode">
+        <ng-template ngFor let-child [ngForOf]="nodes">
+          <ng-template [ngTemplateOutlet]="nodeTemplateRef" [ngTemplateOutletContext]="{ node: child }">
+          </ng-template>
+        </ng-template>
+      </ng-container>
+    </fbp-node>
+
+    <ng-template #renderNode>
+      <fbp-random-number-generator *ngIf="node.type === 'random-number-generator'"></fbp-random-number-generator>
+      <fbp-logger *ngIf="node.type === 'logger'"></fbp-logger>
+    </ng-template>
+  </ng-template>
+
+  <!-- Initiate the recursive template rendering. -->
+  <ng-template
+    [ngTemplateOutlet]="nodeTemplateRef"
+    [ngTemplateOutletContext]="{ node: {} }"></ng-template>
+</fbp-main>
