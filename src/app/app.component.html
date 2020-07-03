@@ -1,8 +1,8 @@
 <fbp-main #fbp>
   <ng-template #nodeTemplateRef let-node="node">
     <fbp-node [id]="node.id">
-      <ng-container *ngIf="getChildNodes(node);let nodes;else renderNode">
-        <ng-template ngFor let-child [ngForOf]="nodes">
+      <ng-container *ngIf="!node.type;else renderNode">
+        <ng-template ngFor let-child [ngForOf]="getChildNodes(node)">
           <ng-template [ngTemplateOutlet]="nodeTemplateRef" [ngTemplateOutletContext]="{ node: child }">
           </ng-template>
         </ng-template>
@@ -16,7 +16,8 @@
   </ng-template>
 
   <!-- Initiate the recursive template rendering. -->
-  <ng-template
-    [ngTemplateOutlet]="nodeTemplateRef"
-    [ngTemplateOutletContext]="{ node: {} }"></ng-template>
+  <ng-container *ngIf="getRoodChildNodes();let nodes">
+    <ng-template *ngFor="let node of nodes" [ngTemplateOutlet]="nodeTemplateRef" [ngTemplateOutletContext]="{ node: node }">
+    </ng-template>
+  </ng-container>
 </fbp-main>

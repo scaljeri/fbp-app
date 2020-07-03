@@ -1,5 +1,5 @@
 import { Component, AfterViewInit, ViewChild, ElementRef, OnInit } from '@angular/core';
-import { stateBasic, IFbpNode } from '@scaljeri/fbp-core';
+import { stateBasic, IFbpNode, IFbpState } from '@scaljeri/fbp-core';
 import { IFbpMainReady } from '@scaljeri/fbp-ui';
 
 
@@ -20,15 +20,19 @@ export class AppComponent implements OnInit, AfterViewInit{
 
   ngAfterViewInit(): void {
       this.fbp.nativeElement.addEventListener('fbp-ready', ({detail}: { detail: IFbpMainReady}) => {
-        detail.init(this.state);
+        detail.init(this.state as any); // TODO
     });
   }
 
-  getChildNodes(node: IFbpNode): IFbpNode[] | null {
+  getRoodChildNodes(): IFbpNode[] {
+    return this.getChildNodes();
+  }
+
+  getChildNodes(node: IFbpNode = {}): IFbpNode[] | null {
     if (node.type) {
       return null;
     }
 
-    return Object.values(this.state.nodes).filter(childNode => childNode.parentId === node.parentId);
+    return Object.values(this.state.nodes).filter(child => child.parentId === node.id);
   }
 }
