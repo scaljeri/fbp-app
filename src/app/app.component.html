@@ -15,7 +15,6 @@
     </ng-template>
   </ng-template>
 
-  <!-- Initiate the recursive template rendering. -->
   <ng-container *ngIf="getRoodChildNodes();let nodes">
     <ng-template *ngFor="let node of nodes" [ngTemplateOutlet]="nodeTemplateRef" [ngTemplateOutletContext]="{ node: node }">
     </ng-template>

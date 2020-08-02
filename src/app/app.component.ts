@@ -1,12 +1,13 @@
-import { Component, AfterViewInit, ViewChild, ElementRef, OnInit } from '@angular/core';
-import { stateBasic, IFbpNode, IFbpState } from '@scaljeri/fbp-core';
+import { Component, AfterViewInit, ViewChild, ElementRef, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { IFbpNode, stateBasic } from '@scaljeri/fbp-core';
 import { IFbpMainReady } from '@scaljeri/fbp-ui';
 
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit, AfterViewInit{
   title = 'app';
@@ -15,12 +16,14 @@ export class AppComponent implements OnInit, AfterViewInit{
   @ViewChild('fbp') fbp: ElementRef;
 
   ngOnInit(): void {
+    // flowManager(this.element)
 
   }
 
   ngAfterViewInit(): void {
       this.fbp.nativeElement.addEventListener('fbp-ready', ({detail}: { detail: IFbpMainReady}) => {
-        detail.init(this.state as any); // TODO
+
+        // detail.init(this.state as any); // TODO
     });
   }
 
